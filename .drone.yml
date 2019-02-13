@@ -1,0 +1,461 @@
+---
+kind: pipeline
+name: user-debian-7-slim
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 7-slim-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:7-slim
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 7-slim-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:7-slim
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:7-slim
+    template: phasecorex/user-debian:7-slim-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+
+---
+kind: pipeline
+name: user-debian-7
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 7-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:7
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 7-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:7
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:7
+    template: phasecorex/user-debian:7-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+
+---
+kind: pipeline
+name: user-debian-8-slim
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 8-slim-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:8-slim
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 8-slim-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:8-slim
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:8-slim
+    template: phasecorex/user-debian:8-slim-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+
+---
+kind: pipeline
+name: user-debian-8
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 8-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:8
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 8-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:8
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:8
+    template: phasecorex/user-debian:8-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+
+---
+kind: pipeline
+name: user-debian-9-slim
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-slim-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:9-slim
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-slim-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:9-slim
+
+- name: docker-build-arm64v8
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-slim-arm64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=aarch64
+      - ARCH_IMG=arm64v8/debian:9-slim
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:9-slim
+    template: phasecorex/user-debian:9-slim-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+      - linux/arm64
+
+---
+kind: pipeline
+name: user-debian-9
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:9
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:9
+
+- name: docker-build-arm64v8
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: 9-arm64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=aarch64
+      - ARCH_IMG=arm64v8/debian:9
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:9
+    template: phasecorex/user-debian:9-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+      - linux/arm64
+
+---
+kind: pipeline
+name: user-debian-latest
+trigger:
+  branch:
+  - master
+  event:
+  - push
+
+steps:
+- name: submodules
+  image: docker:git
+  commands:
+  - git submodule update --init --recursive
+  - ls -la docker-user-image
+
+- name: docker-build-amd64
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: latest-amd64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian
+    build_args:
+      - QEMU_ARCH=x86_64
+      - ARCH_IMG=amd64/debian:latest
+
+- name: docker-build-arm32v7
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: latest-arm
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=arm
+      - ARCH_IMG=arm32v7/debian:latest
+
+- name: docker-build-arm64v8
+  image: plugins/docker
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    repo: phasecorex/user-debian
+    tags: latest-arm64
+    context: docker-user-image
+    dockerfile: docker-user-image/Dockerfile.debian.qemu
+    build_args:
+      - QEMU_ARCH=aarch64
+      - ARCH_IMG=arm64v8/debian:latest
+
+- name: docker-push-manifest
+  image: plugins/manifest:1
+  settings:
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+    target: phasecorex/user-debian:latest
+    template: phasecorex/user-debian:latest-ARCH
+    platforms:
+      - linux/amd64
+      - linux/arm
+      - linux/arm64
+
