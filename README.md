@@ -2,6 +2,7 @@
 Base Debian image that steps down from root into a runtime-defined non-privileged user
 
 [![Build Status](https://ci.pcxserver.com/api/badges/PhasecoreX/docker-user-debian/status.svg)](https://ci.pcxserver.com/PhasecoreX/docker-user-debian)
+[![Image Size](https://images.microbadger.com/badges/image/phasecorex/user-debian.svg)](https://microbadger.com/images/phasecorex/user-debian)
 
 ## For Developers
 Simply have your image use this image as it's base image:
