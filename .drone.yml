@@ -50,7 +50,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-arm32v7
       - 8-arm32v7
     context: docker-user-image
@@ -72,7 +72,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-arm32v5
       - 8-arm32v5
     context: docker-user-image
@@ -94,7 +94,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-amd64
       - 8-amd64
     context: docker-user-image
@@ -174,7 +174,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-slim-arm32v7
       - 8-slim-arm32v7
     context: docker-user-image
@@ -196,7 +196,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-slim-arm32v5
       - 8-slim-arm32v5
     context: docker-user-image
@@ -218,7 +218,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - jessie-slim-amd64
       - 8-slim-amd64
     context: docker-user-image
@@ -298,7 +298,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-slim-arm64v8
       - 9-slim-arm64v8
     context: docker-user-image
@@ -320,7 +320,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-slim-arm32v7
       - 9-slim-arm32v7
     context: docker-user-image
@@ -342,7 +342,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-slim-arm32v5
       - 9-slim-arm32v5
     context: docker-user-image
@@ -364,7 +364,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-slim-amd64
       - 9-slim-amd64
     context: docker-user-image
@@ -444,7 +444,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-arm64v8
       - 9-arm64v8
       - latest-arm64v8
@@ -467,7 +467,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-arm32v7
       - 9-arm32v7
       - latest-arm32v7
@@ -490,7 +490,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-arm32v5
       - 9-arm32v5
       - latest-arm32v5
@@ -513,7 +513,7 @@ steps:
     repo: phasecorex/user-debian
     create_repository: true
     use_cache: true
-    tags: 
+    tags:
       - stretch-amd64
       - 9-amd64
       - latest-amd64
@@ -569,4 +569,40 @@ volumes:
 
 depends_on:
   - prepare
+
+---
+kind: pipeline
+name: notify
+trigger:
+  branch:
+  - master
+  event:
+  - push
+  status:
+  - success
+  - failure
+clone:
+  disable: true
+
+steps:
+- name: send-notification
+  image: appleboy/drone-discord
+  allow_failure: true
+  settings:
+    webhook_id:
+      from_secret: discord_webhook_id
+    webhook_token:
+      from_secret: discord_webhook_token
+    message: >
+      {{#success build.status}}
+        **{{repo.name}}**: Build #{{build.number}} on {{build.branch}} branch succeeded!
+      {{else}}
+        **{{repo.name}}**: Build #{{build.number}} on {{build.branch}} branch failed. Fix me please. {{build.link}}
+      {{/success}}
+
+depends_on:
+  - user-debian-8
+  - user-debian-8-slim
+  - user-debian-9-slim
+  - user-debian-9
 
