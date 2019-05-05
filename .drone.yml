@@ -261,7 +261,7 @@ volumes:
     path: /var/cache/${DRONE_REPO}/docker
 
 depends_on:
-  - prepare
+  - user-debian-8
 
 ---
 kind: pipeline
@@ -407,7 +407,7 @@ volumes:
     path: /var/cache/${DRONE_REPO}/docker
 
 depends_on:
-  - prepare
+  - user-debian-8-slim
 
 ---
 kind: pipeline
@@ -568,7 +568,7 @@ volumes:
     path: /var/cache/${DRONE_REPO}/docker
 
 depends_on:
-  - prepare
+  - user-debian-9-slim
 
 ---
 kind: pipeline
