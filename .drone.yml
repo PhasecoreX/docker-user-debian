@@ -129,7 +129,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-buster-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: buster-slim
   settings:
@@ -140,7 +140,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-10-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 10-slim
   settings:
@@ -253,7 +253,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-jessie-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: jessie-slim
   settings:
@@ -264,7 +264,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-8-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 8-slim
   settings:
@@ -377,7 +377,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-jessie
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: jessie
   settings:
@@ -388,7 +388,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-8
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 8
   settings:
@@ -523,7 +523,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-stretch-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: stretch-slim
   settings:
@@ -534,7 +534,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-9-slim
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 9-slim
   settings:
@@ -669,7 +669,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-stretch
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: stretch
   settings:
@@ -680,7 +680,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-9
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 9
   settings:
@@ -819,7 +819,7 @@ steps:
       path: /var/lib/docker
 
 - name: docker-push-manifest-buster
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: buster
   settings:
@@ -830,7 +830,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-10
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: 10
   settings:
@@ -841,7 +841,7 @@ steps:
     spec: .manifest.tmpl
 
 - name: docker-push-manifest-latest
-  image: plugins/manifest:1
+  image: plugins/manifest
   environment:
     DRONE_TAG: latest
   settings:
