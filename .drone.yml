@@ -58,6 +58,7 @@ steps:
     build_args:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:10-slim
+      - ARCH=arm64v8
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -80,6 +81,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:10-slim
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -102,6 +104,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:10-slim
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -124,6 +127,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:10-slim
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -204,6 +208,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:8-slim
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -226,6 +231,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:8-slim
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -248,6 +254,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:8-slim
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -328,6 +335,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:8
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -350,6 +358,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:8
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -372,6 +381,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:8
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -452,6 +462,7 @@ steps:
     build_args:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:9-slim
+      - ARCH=arm64v8
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -474,6 +485,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:9-slim
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -496,6 +508,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:9-slim
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -518,6 +531,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:9-slim
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -598,6 +612,7 @@ steps:
     build_args:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:9
+      - ARCH=arm64v8
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -620,6 +635,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:9
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -642,6 +658,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:9
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -664,6 +681,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:9
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -745,6 +763,7 @@ steps:
     build_args:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:10
+      - ARCH=arm64v8
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -768,6 +787,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:10
+      - ARCH=arm32v7
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -791,6 +811,7 @@ steps:
     build_args:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:10
+      - ARCH=arm32v5
   volumes:
     - name: docker
       path: /var/lib/docker
@@ -814,6 +835,7 @@ steps:
     build_args:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:10
+      - ARCH=amd64
   volumes:
     - name: docker
       path: /var/lib/docker
