@@ -28,17 +28,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm64v8 arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm64v8
   image: plugins/docker
@@ -48,7 +43,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-slim-arm64v8
     repo: phasecorex/user-debian
     tags:
       - buster-slim-arm64v8
@@ -59,9 +54,6 @@ steps:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:10-slim
       - ARCH=arm64v8
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -71,7 +63,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-slim-arm32v7
     repo: phasecorex/user-debian
     tags:
       - buster-slim-arm32v7
@@ -82,9 +74,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:10-slim
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -94,7 +83,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-slim-arm32v5
     repo: phasecorex/user-debian
     tags:
       - buster-slim-arm32v5
@@ -105,9 +94,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:10-slim
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -117,7 +103,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-slim-amd64
     repo: phasecorex/user-debian
     tags:
       - buster-slim-amd64
@@ -128,9 +114,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:10-slim
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-buster-slim
   image: plugins/manifest
@@ -154,14 +137,6 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
   - prepare
 
@@ -178,17 +153,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -198,7 +168,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-slim-arm32v7
     repo: phasecorex/user-debian
     tags:
       - jessie-slim-arm32v7
@@ -209,9 +179,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:8-slim
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -221,7 +188,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-slim-arm32v5
     repo: phasecorex/user-debian
     tags:
       - jessie-slim-arm32v5
@@ -232,9 +199,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:8-slim
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -244,7 +208,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-slim-amd64
     repo: phasecorex/user-debian
     tags:
       - jessie-slim-amd64
@@ -255,9 +219,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:8-slim
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-jessie-slim
   image: plugins/manifest
@@ -281,16 +242,8 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
-  - user-debian-10-slim
+  - prepare
 
 ---
 kind: pipeline
@@ -305,17 +258,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -325,7 +273,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-arm32v7
     repo: phasecorex/user-debian
     tags:
       - jessie-arm32v7
@@ -336,9 +284,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:8
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -348,7 +293,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-arm32v5
     repo: phasecorex/user-debian
     tags:
       - jessie-arm32v5
@@ -359,9 +304,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:8
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -371,7 +313,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:8-amd64
     repo: phasecorex/user-debian
     tags:
       - jessie-amd64
@@ -382,9 +324,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:8
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-jessie
   image: plugins/manifest
@@ -408,16 +347,8 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
-  - user-debian-8-slim
+  - prepare
 
 ---
 kind: pipeline
@@ -432,17 +363,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm64v8 arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm64v8
   image: plugins/docker
@@ -452,7 +378,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-slim-arm64v8
     repo: phasecorex/user-debian
     tags:
       - stretch-slim-arm64v8
@@ -463,9 +389,6 @@ steps:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:9-slim
       - ARCH=arm64v8
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -475,7 +398,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-slim-arm32v7
     repo: phasecorex/user-debian
     tags:
       - stretch-slim-arm32v7
@@ -486,9 +409,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:9-slim
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -498,7 +418,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-slim-arm32v5
     repo: phasecorex/user-debian
     tags:
       - stretch-slim-arm32v5
@@ -509,9 +429,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:9-slim
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -521,7 +438,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-slim-amd64
     repo: phasecorex/user-debian
     tags:
       - stretch-slim-amd64
@@ -532,9 +449,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:9-slim
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-stretch-slim
   image: plugins/manifest
@@ -558,16 +472,8 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
-  - user-debian-8
+  - prepare
 
 ---
 kind: pipeline
@@ -582,17 +488,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm64v8 arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm64v8
   image: plugins/docker
@@ -602,7 +503,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-arm64v8
     repo: phasecorex/user-debian
     tags:
       - stretch-arm64v8
@@ -613,9 +514,6 @@ steps:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:9
       - ARCH=arm64v8
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -625,7 +523,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-arm32v7
     repo: phasecorex/user-debian
     tags:
       - stretch-arm32v7
@@ -636,9 +534,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:9
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -648,7 +543,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-arm32v5
     repo: phasecorex/user-debian
     tags:
       - stretch-arm32v5
@@ -659,9 +554,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:9
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -671,7 +563,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:9-amd64
     repo: phasecorex/user-debian
     tags:
       - stretch-amd64
@@ -682,9 +574,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:9
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-stretch
   image: plugins/manifest
@@ -708,16 +597,8 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
-  - user-debian-9-slim
+  - prepare
 
 ---
 kind: pipeline
@@ -732,17 +613,12 @@ steps:
 - name: prepare
   image: docker:git
   commands:
-    - mkdir -p /cache/${DRONE_REPO}/docker
-    - echo "Enabled build caching"
     - git submodule update --init --recursive
     - echo "Pulled latest template files:"
     - ls -1 docker-user-image
     - ./generate_manifest.sh user-debian arm64v8 arm32v7 arm32v5 amd64
     - echo "Generated docker manifest template:"
     - cat .manifest.tmpl
-  volumes:
-    - name: cache
-      path: /cache
 
 - name: docker-build-arm64v8
   image: plugins/docker
@@ -752,7 +628,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-arm64v8
     repo: phasecorex/user-debian
     tags:
       - buster-arm64v8
@@ -764,9 +640,6 @@ steps:
       - QEMU_ARCH=aarch64
       - ARCH_IMG=arm64v8/debian:10
       - ARCH=arm64v8
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v7
   image: plugins/docker
@@ -776,7 +649,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-arm32v7
     repo: phasecorex/user-debian
     tags:
       - buster-arm32v7
@@ -788,9 +661,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v7/debian:10
       - ARCH=arm32v7
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-arm32v5
   image: plugins/docker
@@ -800,7 +670,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-arm32v5
     repo: phasecorex/user-debian
     tags:
       - buster-arm32v5
@@ -812,9 +682,6 @@ steps:
       - QEMU_ARCH=arm
       - ARCH_IMG=arm32v5/debian:10
       - ARCH=arm32v5
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-build-amd64
   image: plugins/docker
@@ -824,7 +691,7 @@ steps:
     password:
       from_secret: docker_password
     create_repository: true
-    use_cache: true
+    cache_from: phasecorex/user-debian:10-amd64
     repo: phasecorex/user-debian
     tags:
       - buster-amd64
@@ -836,9 +703,6 @@ steps:
       - QEMU_ARCH=x86_64
       - ARCH_IMG=amd64/debian:10
       - ARCH=amd64
-  volumes:
-    - name: docker
-      path: /var/lib/docker
 
 - name: docker-push-manifest-buster
   image: plugins/manifest
@@ -873,16 +737,8 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-volumes:
-- name: cache
-  host:
-    path: /var/cache
-- name: docker
-  host:
-    path: /var/cache/${DRONE_REPO}/docker
-
 depends_on:
-  - user-debian-9
+  - prepare
 
 ---
 kind: pipeline
