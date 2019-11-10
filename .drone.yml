@@ -1,22 +1,5 @@
 ---
 kind: pipeline
-name: prepare
-trigger:
-  branch:
-  - master
-  event:
-  - push
-clone:
-  disable: true
-
-steps:
-- name: register-qemu
-  image: multiarch/qemu-user-static:register
-  command: [ "--reset" ]
-  privileged: true
-
----
-kind: pipeline
 name: user-debian-10-slim
 trigger:
   branch:
@@ -137,9 +120,6 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-depends_on:
-  - prepare
-
 ---
 kind: pipeline
 name: user-debian-8-slim
@@ -242,9 +222,6 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-depends_on:
-  - prepare
-
 ---
 kind: pipeline
 name: user-debian-8
@@ -346,9 +323,6 @@ steps:
     password:
       from_secret: docker_password
     spec: .manifest.tmpl
-
-depends_on:
-  - prepare
 
 ---
 kind: pipeline
@@ -472,9 +446,6 @@ steps:
       from_secret: docker_password
     spec: .manifest.tmpl
 
-depends_on:
-  - prepare
-
 ---
 kind: pipeline
 name: user-debian-9
@@ -596,9 +567,6 @@ steps:
     password:
       from_secret: docker_password
     spec: .manifest.tmpl
-
-depends_on:
-  - prepare
 
 ---
 kind: pipeline
@@ -736,9 +704,6 @@ steps:
     password:
       from_secret: docker_password
     spec: .manifest.tmpl
-
-depends_on:
-  - prepare
 
 ---
 kind: pipeline
